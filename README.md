@@ -26,11 +26,11 @@ In your ApplicationController:
       SessionTracker.new("user", $redis).track(session[:session_id])
     end
 
-In redis, do a union on the data for the last minute to get active users:
+Then to view the current state:
 
-    keys active_user*
-    sunion active_user_sessions_minute_12 active_user_sessions_minute_13 active_user_sessions_minute_14
+    SessionTracker.new("user", $redis).active_users
 
+If redis is accessible through $redis, you don't have to give it as an argument to SessionTracker.new.
 
 ## Contributing
 
@@ -41,6 +41,8 @@ In redis, do a union on the data for the last minute to get active users:
 5. Create new Pull Request
 
 ## Credits and license
+
+Inspired by [http://www.lukemelia.com/blog/archives/2010/01/17/redis-in-practice-whos-online/](http://www.lukemelia.com/blog/archives/2010/01/17/redis-in-practice-whos-online/).
 
 By [Joakim Kolsjö](https://github.com/joakimk) under the MIT license:
 

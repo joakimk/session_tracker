@@ -39,3 +39,19 @@ describe SessionTracker, "track" do
   end
 
 end
+
+describe SessionTracker, "active_users" do
+
+  let(:redis) { mock.as_null_object }
+
+  it "should do a union on the last 3 minutes to get a active user count" do
+    time = Time.parse("13:09")
+    redis.should_receive(:sunion).with("active_customer_sessions_minute_09",
+                                       "active_customer_sessions_minute_08",
+                                       "active_customer_sessions_minute_07").
+                                       and_return([ mock, mock ])
+
+    SessionTracker.new("customer", redis).active_users(time).should == 2
+  end
+
+end
