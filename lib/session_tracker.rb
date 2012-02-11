@@ -18,8 +18,12 @@ class SessionTracker
     # so we don't want to raise errors just because redis is down for a few seconds.
   end
 
+  def active_users_data(timespan_in_minutes, time)
+    @redis.sunion(*keys_within(timespan_in_minutes, time))
+  end
+
   def active_users(timespan_in_minutes = 5, time = Time.now)
-    @redis.sunion(*keys_within(timespan_in_minutes, time)).size
+    active_users_data(timespan_in_minutes, time).size
   end
 
   private

@@ -61,4 +61,9 @@ describe SessionTracker, "active_users" do
     SessionTracker.new("customer", redis).active_users.should == 2
   end
 
+  it "should be possible to access the data" do
+    redis.should_receive(:sunion).and_return([ :d1, :d2 ])
+    SessionTracker.new("customer", redis).active_users_data(3, Time.now).should == [ :d1, :d2 ]
+  end
+
 end
