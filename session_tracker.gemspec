@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require File.expand_path('../lib/session_tracker', __FILE__)
 require File.expand_path('../lib/session_tracker/version', __FILE__)
 
 Gem::Specification.new do |gem|
