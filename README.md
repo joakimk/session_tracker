@@ -32,6 +32,8 @@ Then to view the current state:
 
 If redis is accessible through $redis, you don't have to give it as an argument to SessionTracker.new.
 
+Read the spec and/or code to see how it works.
+
 ## Contributing
 
 1. Fork it
