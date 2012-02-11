@@ -18,14 +18,14 @@ class SessionTracker
     # so we don't want to raise errors just because redis is down for a few seconds.
   end
 
-  def active_users(time = Time.now)
-    @redis.sunion(*keys_for_last_3_minutes(time)).size
+  def active_users(timespan_in_minutes = 5, time = Time.now)
+    @redis.sunion(*keys_within(timespan_in_minutes, time)).size
   end
 
   private
   
-  def keys_for_last_3_minutes(time)
-    times = 0.upto(2).map { |n| time - (n * 60) }
+  def keys_within(minutes, time)
+    times = 0.upto(minutes - 1).map { |n| time - (n * 60) }
     times.map { |t| key_for(t) }
   end
 
