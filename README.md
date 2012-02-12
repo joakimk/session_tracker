@@ -1,6 +1,6 @@
 # SessionTracker
 
-Track active sessions in redis.
+Track active users sessions in redis.
 
 ## Installation
 
