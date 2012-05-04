@@ -23,7 +23,7 @@ class SessionTracker
     raise if options[:propagate_exceptions]
   end
 
-  def active_users_data(timespan_in_minutes, time)
+  def active_users_data(timespan_in_minutes = 5, time = Time.now)
     redis.sunion(*keys_within(timespan_in_minutes, time))
   end
 

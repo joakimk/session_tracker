@@ -26,9 +26,13 @@ In your ApplicationController:
       SessionTracker.new("user", :redis => redis_server).track(session[:user_id])
     end
 
-Then to view the current state:
+Then to view the current active user count:
 
     SessionTracker.new("user", :redis => redis_server).active_users
+
+Or to get the raw list of all active users:
+
+    SessionTracker.new("user", :redis => redis_server).active_users_data
 
 You can pass either options, or a redis object as the second argument.  If redis is accessible through $redis or REDIS, you don't have to give it as an option to `SessionTracker`.
 
