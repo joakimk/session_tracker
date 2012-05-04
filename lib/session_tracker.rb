@@ -5,10 +5,11 @@ class SessionTracker
 
   attr_accessor :options, :redis, :type
 
-  def initialize(type, redis = nil, options = {})
+  def initialize(type, options = {})
     @type = type
-    @redis = redis || (defined?($redis) && $redis) || (defined?(REDIS) && REDIS)
-    @options = {}
+    options = { :redis => options } unless options.is_a?(Hash)
+    @options = options
+    @redis = options[:redis] || (defined?($redis) && $redis) || (defined?(REDIS) && REDIS)
   end
 
   def track(id, time = Time.now)
@@ -16,7 +17,7 @@ class SessionTracker
     key = key_for(time)
     redis.sadd(key, id)
     redis.expire(key, ONE_HOUR - 60)
-  rescue
+  rescue StandardError
     # This is called for every request and is probably not essential for the app
     # so we don't want to raise errors just because redis is down for a few seconds.
     raise if options[:propagate_exceptions]

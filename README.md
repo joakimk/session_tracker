@@ -23,14 +23,17 @@ In your ApplicationController:
     before_filter :track_active_sessions
 
     def track_active_sessions
-      SessionTracker.new("user", $redis).track(session[:session_id])
+      SessionTracker.new("user", :redis => redis_server).track(session[:user_id])
     end
 
 Then to view the current state:
 
-    SessionTracker.new("user", $redis).active_users
+    SessionTracker.new("user", :redis => redis_server).active_users
 
-If redis is accessible through $redis, you don't have to give it as an argument to SessionTracker.new.
+You can pass either options, or a redis object as the second argument.  If redis is accessible through $redis or REDIS, you don't have to give it as an option to `SessionTracker`.
+
+By default, SessionTracker swallows exceptions when `track` is called.  If you'd like to have these exceptions raised, pass
+`:propagate_exceptions => true` as an option.
 
 Read the spec and/or code to see how it works.
 
