@@ -34,6 +34,10 @@ Or to get the raw list of all active users:
 
     SessionTracker.new("user", :redis => redis_server).active_users_data
 
+Finally, you can get a list of friends by passing a Redis key containing a list of friend ids:
+
+    SessionTracker.new("user", :redis => redis_server).active_friends("my_friends")
+
 You can pass either options, or a redis object as the second argument.  If redis is accessible through $redis or REDIS, you don't have to give it as an option to `SessionTracker`.
 
 By default, SessionTracker swallows exceptions when `track` is called.  If you'd like to have these exceptions raised, pass
