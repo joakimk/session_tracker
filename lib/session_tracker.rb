@@ -27,8 +27,20 @@ class SessionTracker
     redis.sunion(*keys_within(timespan_in_minutes, time))
   end
 
+  def active_friends(friend_ids_key, options = {})
+    tmp_key = random_key
+    redis.sunionstore(tmp_key, *keys_within(options[:timespan_in_minutes] || 5, options[:time] || Time.now))
+    redis.sinter(tmp_key, friend_ids_key)
+  ensure
+    redis.del(tmp_key)
+  end
+
   def active_users(timespan_in_minutes = 5, time = Time.now)
     active_users_data(timespan_in_minutes, time).size
+  end
+
+  def random_key
+    (Time.now.to_f + rand * 100_000_000).to_s
   end
 
   private

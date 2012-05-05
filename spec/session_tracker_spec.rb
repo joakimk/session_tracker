@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe SessionTracker, "track" do
-
   let(:redis) { mock.as_null_object }
 
   it "should store the user in a set for the current minute" do
@@ -53,7 +52,6 @@ describe SessionTracker, "track" do
 end
 
 describe SessionTracker, "active_users" do
-
   let(:redis) { mock.as_null_object }
 
   it "should do a union on the specified timespan to get a active user count" do
@@ -77,5 +75,23 @@ describe SessionTracker, "active_users" do
     redis.should_receive(:sunion).and_return([ :d1, :d2 ])
     SessionTracker.new("customer", redis).active_users_data(3, Time.now).should == [ :d1, :d2 ]
   end
+end
 
+describe SessionTracker, "active_friends" do
+  let(:redis) { mock.as_null_object }
+
+  it "should do a union on the specified timespan, store it, intersect it with a friends key, and then cleanup" do
+    time = Time.parse("13:09")
+    session_tracker = SessionTracker.new("customer", redis)
+    session_tracker.should_receive(:random_key).and_return("tmp_key")
+    redis.should_receive(:sunionstore).with("tmp_key",
+                                            "active_customer_sessions_minute_09",
+                                            "active_customer_sessions_minute_08",
+                                            "active_customer_sessions_minute_07").
+                                            and_return([ mock, mock ])
+    redis.should_receive(:sinter).with("tmp_key", "some_friend_key").and_return(["2", "4"])
+    redis.should_receive(:del).with("tmp_key")
+
+    session_tracker.active_friends("some_friend_key", :timespan_in_minutes => 3, :time => time).should == ["2", "4"]
+  end
 end
