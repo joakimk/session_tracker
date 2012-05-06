@@ -26,6 +26,10 @@ In your ApplicationController:
       SessionTracker.new("user", :redis => redis_server).track(session[:user_id])
     end
 
+When someone logs out, you can untrack them:
+
+    SessionTracker.new("user", :redis => redis_server).untrack(session[:user_id])
+
 Then to view the current active user count:
 
     SessionTracker.new("user", :redis => redis_server).active_users

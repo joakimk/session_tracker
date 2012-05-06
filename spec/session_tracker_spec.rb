@@ -95,3 +95,16 @@ describe SessionTracker, "active_friends" do
     session_tracker.active_friends("some_friend_key", :timespan_in_minutes => 3, :time => time).should == ["2", "4"]
   end
 end
+
+describe SessionTracker, "untrack" do
+  let(:redis) { mock.as_null_object }
+
+  it "should remove the specfied session id from recent buckets" do
+    time = Time.parse("13:09")
+    redis.should_receive(:srem).with("active_customer_sessions_minute_09", 123)
+    redis.should_receive(:srem).with("active_customer_sessions_minute_08", 123)
+    redis.should_receive(:srem).with("active_customer_sessions_minute_07", 123)
+    redis.should_not_receive(:srem).with("active_customer_sessions_minute_06", 123)
+    SessionTracker.new("customer", redis).untrack(123, 3, time)
+  end
+end

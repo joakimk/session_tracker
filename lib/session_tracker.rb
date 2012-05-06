@@ -23,6 +23,15 @@ class SessionTracker
     raise if options[:propagate_exceptions]
   end
 
+  def untrack(id, timespan_in_minutes = 5, time = Time.now)
+    return unless id
+    keys_within(timespan_in_minutes, time).each do |slice_key|
+      redis.srem(slice_key, id)
+    end
+  rescue StandardError
+    raise if options[:propagate_exceptions]
+  end
+
   def active_users_data(timespan_in_minutes = 5, time = Time.now)
     redis.sunion(*keys_within(timespan_in_minutes, time))
   end
