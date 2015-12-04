@@ -23,14 +23,29 @@ In your ApplicationController:
     before_filter :track_active_sessions
 
     def track_active_sessions
-      SessionTracker.new("user", $redis).track(session[:session_id])
+      SessionTracker.new("user", :redis => redis_server).track(session[:user_id])
     end
 
-Then to view the current state:
+When someone logs out, you can untrack them:
 
-    SessionTracker.new("user", $redis).active_users
+    SessionTracker.new("user", :redis => redis_server).untrack(session[:user_id])
 
-If redis is accessible through $redis, you don't have to give it as an argument to SessionTracker.new.
+Then to view the current active user count:
+
+    SessionTracker.new("user", :redis => redis_server).active_users
+
+Or to get the raw list of all active users:
+
+    SessionTracker.new("user", :redis => redis_server).active_users_data
+
+Finally, you can get a list of friends by passing a Redis key containing a list of friend ids:
+
+    SessionTracker.new("user", :redis => redis_server).active_friends("my_friends")
+
+You can pass either options, or a redis object as the second argument.  If redis is accessible through $redis or REDIS, you don't have to give it as an option to `SessionTracker`.
+
+By default, SessionTracker swallows exceptions when `track` is called.  If you'd like to have these exceptions raised, pass
+`:propagate_exceptions => true` as an option.
 
 Read the spec and/or code to see how it works.
 
