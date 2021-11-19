@@ -8,6 +8,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Track active user sessions in redis}
   gem.summary       = %q{Track active user sessions in redis}
   gem.homepage      = ""
+  gem.metadata      = { "rubygems_mfa_required" => "true" }
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
