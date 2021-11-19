@@ -2,7 +2,7 @@ require 'session_tracker'
 
 describe SessionTracker, "track" do
   
-  let(:redis) { mock.as_null_object }
+  let(:redis) { double.as_null_object }
 
   it "should store the user in a set for the current minute" do
     time = Time.parse("15:04")
@@ -42,21 +42,21 @@ end
 
 describe SessionTracker, "active_users" do
 
-  let(:redis) { mock.as_null_object }
+  let(:redis) { double.as_null_object }
 
   it "should do a union on the specified timespan to get a active user count" do
     time = Time.parse("13:09")
     redis.should_receive(:sunion).with("active_customer_sessions_minute_09",
                                        "active_customer_sessions_minute_08",
                                        "active_customer_sessions_minute_07").
-                                       and_return([ mock, mock ])
+                                       and_return([ double, double ])
 
     SessionTracker.new("customer", redis).active_users(3, time).should == 2
   end
 
   it "should use a default time span of 5 minutes" do
     redis.should_receive(:sunion).with(anything, anything, anything,
-                                       anything, anything).and_return([ mock, mock ])
+                                       anything, anything).and_return([ double, double ])
 
     SessionTracker.new("customer", redis).active_users.should == 2
   end
