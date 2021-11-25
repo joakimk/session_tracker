@@ -10,6 +10,7 @@ class SessionTracker
 
   def track(id, time = Time.now)
     return unless id
+
     key = key_for(time)
     @redis.sadd(key, id)
     @redis.expire(key, ONE_HOUR - 60)
