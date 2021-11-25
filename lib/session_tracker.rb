@@ -28,7 +28,7 @@ class SessionTracker
   end
 
   private
-  
+
   def keys_within(minutes, time)
     times = 0.upto(minutes - 1).map { |n| time - (n * 60) }
     times.map { |t| key_for(t) }

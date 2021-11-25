@@ -1,7 +1,7 @@
 require "session_tracker"
 
 describe SessionTracker, "track" do
-  
+
   let(:redis) { double.as_null_object }
 
   it "should store the user in a set for the current minute" do
