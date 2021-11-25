@@ -1,4 +1,4 @@
-require 'session_tracker'
+require "session_tracker"
 
 describe SessionTracker, "track" do
   
@@ -33,7 +33,7 @@ describe SessionTracker, "track" do
   end
 
   it "should not raise any errors" do
-    redis.should_receive(:expire).and_raise('fail')
+    redis.should_receive(:expire).and_raise("fail")
     tracker = SessionTracker.new("customer", redis)
     tracker.track("abc123", Time.now)
   end

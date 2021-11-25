@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/session_tracker', __FILE__)
-require File.expand_path('../lib/session_tracker/version', __FILE__)
+require File.expand_path("../lib/session_tracker", __FILE__)
+require File.expand_path("../lib/session_tracker/version", __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Joakim Kolsjö"]
@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = SessionTracker::VERSION
   gem.add_development_dependency "rake"
-  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency "rspec"
   gem.add_development_dependency "guard"
   gem.add_development_dependency "guard-rspec"
   gem.add_development_dependency "barsoom_utils"

@@ -1,4 +1,4 @@
-guard 'rspec', :version => 2, :all_on_start => false,
+guard "rspec", :version => 2, :all_on_start => false,
                :all_after_pass => false, :bundler => false,
                :keep_failed => false do
   watch(%r{^spec/.+_spec\.rb$})

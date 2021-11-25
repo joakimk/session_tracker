@@ -1,4 +1,4 @@
-require 'time'
+require "time"
 
 class SessionTracker
   ONE_HOUR = 60 * 60
