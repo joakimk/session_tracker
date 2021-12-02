@@ -1,4 +1,4 @@
-require 'time'
+require "time"
 
 class SessionTracker
   ONE_HOUR = 60 * 60
@@ -10,6 +10,7 @@ class SessionTracker
 
   def track(id, time = Time.now)
     return unless id
+
     key = key_for(time)
     @redis.sadd(key, id)
     @redis.expire(key, ONE_HOUR - 60)
@@ -27,7 +28,7 @@ class SessionTracker
   end
 
   private
-  
+
   def keys_within(minutes, time)
     times = 0.upto(minutes - 1).map { |n| time - (n * 60) }
     times.map { |t| key_for(t) }
