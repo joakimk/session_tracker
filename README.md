@@ -1,3 +1,5 @@
+NOTE: This is not actively maintained! It can contain both bugs and security issues simply by being old code that has not been kept up to date.
+
 # SessionTracker
 
 Track active users sessions in redis.
