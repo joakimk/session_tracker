@@ -2,7 +2,7 @@ NOTE: This is not actively maintained! It can contain both bugs and security iss
 
 # SessionTracker
 
-Track active users sessions in redis.
+Track active users' sessions in Redis.
 
 ## Installation
 
@@ -22,17 +22,21 @@ Or install it yourself as:
 
 In your ApplicationController:
 
-    before_filter :track_active_sessions
+```ruby
+before_filter :track_active_sessions
 
-    def track_active_sessions
-      SessionTracker.new("user", $redis).track(session[:session_id])
-    end
+def track_active_sessions
+  SessionTracker.new("user", $redis).track(session[:session_id])
+end
+```
 
 Then to view the current state:
 
-    SessionTracker.new("user", $redis).active_users
+```ruby
+SessionTracker.new("user", $redis).active_users
+```
 
-If redis is accessible through $redis, you don't have to give it as an argument to SessionTracker.new.
+If redis is accessible through `$redis`, you don't have to give it as an argument to `SessionTracker.new`.
 
 Read the spec and/or code to see how it works.
 
